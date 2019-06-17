@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+		<xacro:include filename="$(find cuboid_description)/urdf/sensors/pico_flexx_gazebo.urdf.xacro"/>
+  <!--xacro:include filename="$(find cuboid_description)/urdf/cuboid_properties.urdf.xacro"/-->
+<xacro:macro name="sensor_pmd" params="name parent *origin">
+<link name="${name}_link_optical_frame" />
+<link name="${name}_optical_frame" />
+ <link name="${name}_depth_link"/>
+ <link name="${name}_link">
+   <visual>
+    <geometry>
+      <box size="0.007 0.066 0.016"/>
+    </geometry>
+    <material name="green"/>
+   </visual>
+   <collision>
+    <geometry>
+      <box size="0.007 0.066 0.016"/>
+    </geometry>
+   </collision>
+   <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia
+        ixx="1.0" ixy="0.0" ixz="0.0"
+        iyy="1.0" iyz="0.0"
+        izz="1.0"/>
+   </inertial>
+ </link>
+ 
+ <joint name="${name}_base_joint" type="fixed">
+   <xacro:insert_block name="origin" />
+   <parent link="${parent}"/>
+   <child link="${name}_link_optical_frame"/>
+ </joint>
+ 
+ <joint name="${name}_depth_joint" type="fixed">
+   <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" />
+   <parent link="${name}_link_optical_frame" />
+   <child link="${name}_depth_link" />
+ </joint>
+ 
+  <joint name="${name}_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="${name}_link_optical_frame"/>
+    <child link="${name}_link"/>
+  </joint>
+
+  <joint name="${name}_optical_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="${M_PI/2} 0 ${M_PI/2}"/>
+    <parent link="${name}_link_optical_frame"/>
+    <child link="${name}_optical_frame"/>
+  </joint>
+	<xacro:cuboid_sim_pmd_sensor name="${name}"/>
+  </xacro:macro>
+</robot>
+  

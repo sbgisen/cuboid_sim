@@ -1,0 +1,62 @@
+move_base:
+   controller_frequency: 10.0
+   controller_patience: 0.2
+
+   planner_frequency: 0.25
+   planner_patience: 15.0
+   max_planning_retries: 5
+
+   oscillation_timeout: 10.0
+   oscillation_distance: 0.5
+
+   # Base profile for cuboid
+   TrajectoryPlannerROS:
+     acc_lim_x: 0.2 #直線加速度
+     acc_lim_y: 0.0
+     acc_lim_theta: 0.8 #回転加速
+     max_vel_x: 0.5
+     min_vel_x: 0.02
+     max_vel_y: 0.0
+     min_vel_y: 0.0
+     max_vel_theta: 1.0
+     min_vel_theta: -1.0
+     min_in_place_vel_theta: 0.01
+     sim_time: 2.0
+     sim_granularity: 0.025
+     angular_sim_granularity: 0.0125
+   
+     pdist_scale: 1.0
+     gdist_scale: 2.0 #1.2 #0.4 #6.0
+     occdist_scale: 0.1 # 0.06 #0.6
+     heading_lookahead: 0.5 #0.35
+     heading_scoring: false
+   
+     vx_samples: 10
+     vtheta_samples: 10
+     heading_lookahead: 1.0
+     escape_reset_dist: 0.05
+     escape_reset_theta: 0.025
+     escape_vel: -0.2  # -0.03
+     escape_vel_theta: -0.4  # 0.1
+     escape_backward_only: true
+     holonomic_robot: false
+     yaw_goal_tolerance: 0.05
+     xy_goal_tolerance: 0.5
+     latch_xy_goal_tolerance: true
+   
+   # Recovery behaviors
+   recovery_behavior_enabled: true
+   recovery_behaviors:
+     - name: "conservative_reset"
+       type: "clear_costmap_recovery/ClearCostmapRecovery"
+     - name: "rotate_recovery"
+       type: "rotate_recovery/RotateRecovery"
+     - name: "aggressive_reset"
+       type: "clear_costmap_recovery/ClearCostmapRecovery"
+   conservative_reset:
+     reset_distance: 3.0
+   rotate_recovery:
+     frequency: 10.0
+     sim_granularity: 0.02
+   aggressive_reset: 
+     reset_distance: 0.5

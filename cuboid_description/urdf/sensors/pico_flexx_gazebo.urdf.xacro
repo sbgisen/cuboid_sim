@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- Microsoft Kinect / ASUS Xtion PRO Live for simulation -->
+  <xacro:macro name="cuboid_sim_pmd_sensor" params="name">
+  <gazebo reference="${name}_link">  
+    <material>Gazebo/FlatBlack</material>
+      <sensor type="depth" name="camera">
+        <always_on>true</always_on>
+        <update_rate>5.0</update_rate>
+        <camera>
+          <horizontal_fov>${60.0*M_PI/180.0}</horizontal_fov>
+          <image>
+            <format>L8</format>
+            <width>224</width>
+            <height>171</height>
+          </image>
+          <clip>
+            <near>0.10</near>
+            <far>4.0</far>
+          </clip>
+        </camera>
+        <plugin name="pico_flexx_controller" filename="libgazebo_ros_openni_kinect.so">
+          <cameraName>${name}</cameraName>
+          <alwaysOn>true</alwaysOn>
+          <updateRate>5</updateRate>
+          <imageTopicName>image_mono8</imageTopicName>
+          <depthImageTopicName>image_depth</depthImageTopicName>
+          <pointCloudTopicName>points</pointCloudTopicName>
+          <depthImageCameraInfoTopicName>camera_info</depthImageCameraInfoTopicName>
+          <frameName>${name}_depth_link</frameName>
+          <baseline>0.1</baseline>
+          <distortion_k1>0.0</distortion_k1>
+          <distortion_k2>0.0</distortion_k2>
+          <distortion_k3>0.0</distortion_k3>
+          <distortion_t1>0.0</distortion_t1>
+          <distortion_t2>0.0</distortion_t2>
+          <pointCloudCutoff>0.1</pointCloudCutoff>
+        </plugin>
+      </sensor>
+    </gazebo>
+  </xacro:macro>
+</robot>

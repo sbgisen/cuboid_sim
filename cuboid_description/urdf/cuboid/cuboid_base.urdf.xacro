@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="default_inertial" params="mass origin_xyz">
+    <inertial>
+      <mass value="${mass}" />
+      <origin xyz="${origin_xyz}" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+                         iyy="1.0" iyz="0.0"
+                                   izz="1.0" />
+    </inertial>
+  </xacro:macro>
+
+  <link name="base_footprint"/>
+  <joint name="footprint_to_base" type="fixed">
+    <parent link="base_footprint" />
+    <child link="base_link">base_link</child>
+    <origin xyz="0 0 ${body_height}" rpy="0 0 0" />
+  </joint>
+
+  <link name="base_link">
+    <xacro:default_inertial mass="50" origin_xyz="0 0 0" />
+  </link>
+
+  <joint name="base_to_box" type="fixed">
+    <parent link="base_link" />
+    <child link="box_link">box_link</child>
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+
+  <link name="box_link">
+    <visual>
+    <origin xyz="0 0 0.0" rpy="0 0 ${M_PI}" />
+      <geometry>
+        <!--box size="0.37 0.37 0.37" /-->
+     <mesh filename="package://cuboid_description/meshes/cuboid_dock.dae" />
+      </geometry>
+      <xacro:material_grey/>
+      </visual>
+    <collision>
+    <origin xyz="0 0 0.0" rpy="0 0 ${M_PI}" />
+      <geometry>
+        <!--box size="0.37 0.37 0.37" /-->
+    <mesh filename="package://cuboid_description/meshes/cuboid_dock.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <!-- wheel -->
+  <xacro:wheel name="left" parent="base_link" radius="${wheel_height / 2}" >
+         <origin xyz="${wheel_x_dist} ${wheel_y_dist} ${wheel_height /2 - 0.005}" rpy="0 0 0" />
+  </xacro:wheel>
+  <xacro:wheel name="right" parent="base_link" radius="${wheel_height / 2}" >
+         <origin xyz="${wheel_x_dist} ${- wheel_y_dist} ${wheel_height /2 - 0.005}" rpy="0 0 0" />
+  </xacro:wheel>
+  <!-- connector -->
+  <xacro:power_connector name="power_connector" parent="box" >
+		  <origin xyz="${connector_x} 0 ${connector_z}" rpy="0 0 0" />
+  </xacro:power_connector>
+  <!-- hokuyo lidar -->
+  <xacro:hokuyo_lx30_laser_v0 name="cuboid_laser" parent="box" ros_topic="urg_scan" update_rate="20" min_angle="-2.356" max_angle="2.356" >
+      <origin xyz="${base_laser_x} ${base_laser_y} ${base_laser_z}" rpy="0 0 ${-M_PI/4}" />
+  </xacro:hokuyo_lx30_laser_v0>
+  <!-- top lidar -->
+	<xacro:rplidar_laser name="rplidar_laser" parent="box" ros_topic="scan_raw" update_rate="5.5" min_angle="-3.1415" max_angle="3.1415" >
+			<origin xyz="${rp_laser_x} ${rp_laser_y} ${rp_laser_z}" rpy="0 ${-M_PI/4} ${M_PI}" />
+    </xacro:rplidar_laser>
+  <!-- foot lidar -->
+	<xacro:rplidar_laser name="rplidar_laser_foot" parent="box" ros_topic="scan_raw_foot" update_rate="5.5" min_angle="-3.1415" max_angle="3.1415" >
+			<origin xyz="${foot_rp_laser_x} ${foot_rp_laser_y} ${foot_rp_laser_z}" rpy="${M_PI} 0 ${M_PI}" />
+    </xacro:rplidar_laser>
+  <!-- imu -->
+  <xacro:gyro_imu name="gyro" parent="base"  update_rate="50"/>
+
+  <!-- sonars -->
+  <!-- frame=id:/sonar_left_side_frame, topic:/sonar/left_side -->
+  <xacro:sonar name="sonar_left_side" parent="box" ros_topic="/sonar/left_side" update_rate="5" maxRange="0.5" minRange="0.005" fov="0.3491" ray_count="5">
+		  <origin xyz="${side_sonar_x} ${side_sonar_y} ${side_sonar_z}" rpy="0 0 ${M_PI/2.0}" />
+  </xacro:sonar>
+  <!-- frame=id:/sonar_left_oblique_frame, topic:/sonar/left_oblique -->
+  <xacro:sonar name="sonar_left_oblique" parent="box" ros_topic="/sonar/left_oblique" update_rate="5" maxRange="0.5" minRange="0.005" fov="0.3491" ray_count="5">
+		  <origin xyz="${oblique_sonar_x} ${oblique_sonar_y} ${oblique_sonar_z}" rpy="0 0 ${M_PI/4.0}" />
+   </xacro:sonar>
+  <!-- frame=id:/sonar_left_front_frame, topic:/sonar/left_front -->
+  <xacro:sonar name="sonar_left_front" parent="box" ros_topic="/sonar/left_front" update_rate="5" maxRange="0.5" minRange="0.005" fov="0.3491" ray_count="5">
+		  <origin xyz="${front_sonar_x} ${front_sonar_y} ${front_sonar_z}" rpy="0 0 0" />
+   </xacro:sonar>
+
+  <!-- frame=id:/sonar_right_front_frame, topic:/sonar/right_front -->
+  <xacro:sonar name="sonar_right_front" parent="box" ros_topic="/sonar/right_front" update_rate="5" maxRange="0.5" minRange="0.005" fov="0.3491" ray_count="5">
+      <origin xyz="${front_sonar_x} -${front_sonar_y} ${front_sonar_z}" rpy="0 0 0" />
+   </xacro:sonar>
+  <!-- frame=id:/sonar_right_oblique_frame, topic:/sonar/right_oblique -->
+  <xacro:sonar name="sonar_right_oblique" parent="box" ros_topic="/sonar/right_oblique" update_rate="5" maxRange="0.5" minRange="0.005" fov="0.3491" ray_count="5">
+      <origin xyz="${oblique_sonar_x} -${oblique_sonar_y} ${oblique_sonar_z}" rpy="0 0 -${M_PI/4.0}" />
+  </xacro:sonar>
+  <!-- frame=id:/sonar_right_side_frame, topic:/sonar/right_side -->
+  <xacro:sonar name="sonar_right_side" parent="box" ros_topic="/sonar/right_side" update_rate="5" maxRange="0.5" minRange="0.005" fov="0.3491" ray_count="5">
+      <origin xyz="${side_sonar_x} -${side_sonar_y} ${side_sonar_z}" rpy="0 0 -${M_PI/2.0}" />
+  </xacro:sonar>
+
+  <xacro:include filename="$(find cuboid_description)/urdf/cuboid_base.gazebo" />
+</robot>

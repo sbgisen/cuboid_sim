@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="$(find cuboid_description)/urdf/sensors/wheel_gazebo.urdf.xacro" />
+  <xacro:macro name="wheel" params="parent name radius *origin">
+  <xacro:property name="M_PI" value="3.1415926535897931" />
+  <joint name="wheel_${name}_joint" type="continuous">
+      <parent link="${parent}" />
+      <child link="wheel_${name}" />
+    <xacro:insert_block name="origin" />
+    <axis xyz="0 1 0" />
+    <limit effort="20" velocity="20.0" />
+    <dynamics damping="0.5" friction="0.1" />
+  </joint>
+  <transmission name="wheel_${name}_transmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="wheel_${name}_joint">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="wheel_${name}_motor">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      <mechanismReduction>1</mechanismReduction>
+    </actuator>
+  </transmission>
+
+  <link name="wheel_${name}">
+    <visual>
+      <origin xyz="0 0 0" rpy="${M_PI / 2} 0 0" />
+      <geometry>
+        <cylinder radius="${radius}" length="0.041" /> 
+      </geometry>
+      <material name="blue">
+        <color rgba="0 0 0.8 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="${M_PI / 2} 0 0" />
+      <geometry>
+        <cylinder radius="${radius}" length="0.041" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+                         iyy="1.0" iyz="0.0"
+                                   izz="1.0" />
+    </inertial>
+  </link>
+
+  <xacro:wheel_gazebo name="${name}" />
+  </xacro:macro>
+</robot>

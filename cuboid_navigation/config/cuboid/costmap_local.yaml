@@ -1,0 +1,21 @@
+width: 3.0
+height: 3.0
+resolution: 0.05
+publish_frequency: 10
+update_frequency: 10
+
+
+plugins:
+# - {name: range_sensor_layer,   type: "range_sensor_layer::RangeSensorLayer"}
+# - {name: social,     type: "social_navigation_layers::ProxemicLayer"}
+ - {name: obstacles,  type: "costmap_2d::VoxelLayer"}
+ - {name: range_sensor_layer,   type: "range_sensor_layer::RangeSensorLayer"}
+# - {name: social_layer,  type: "social_navigation_layers::ProxemicLayer"}
+ - {name: inflater,   type: "costmap_2d::InflationLayer"}
+# - {name: range_sensor_layer,   type: "range_sensor_layer::RangeSensorLayer"}
+
+        #social:
+        #amplitude: 254  # uniformly set 254 (forbidden region)
+        #covariance: 0.15  # radius
+        #use_gaussian: false  # if false, use uniform function
+

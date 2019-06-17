@@ -1,0 +1,7 @@
+<!-- -*- mode: XML -*- -->
+<launch>
+	<include file="$(find teleop_twist_joy)/launch/teleop.launch" ns="base/diff_drive_controller">
+		<arg name="joy_dev" value="/dev/input/js0" />
+		<arg name="config_filepath" value="$(find cuboid_teleop)/config/joy.config.yaml" />
+	</include>
+</launch>

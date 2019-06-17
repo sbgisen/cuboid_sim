@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+  The complete cuboid library of xacros for easy reference
+ -->
+<robot  xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- General -->
+  <xacro:include filename="$(find cuboid_description)/urdf/common_properties.urdf.xacro"/>
+  <xacro:include filename="$(find cuboid_description)/urdf/cuboid/cuboid_properties.urdf.xacro"/>
+  <!-- Sensors -->
+  <xacro:include filename="$(find cuboid_description)/urdf/sensors/kinect.urdf.xacro"/>
+  <xacro:include filename="$(find cuboid_description)/urdf/sensors/pico_flexx.urdf.xacro"/>
+  <xacro:include filename="$(find cuboid_description)/urdf/sensors/hokuyo_lx30_laser.urdf.xacro" />
+  <xacro:include filename="$(find cuboid_description)/urdf/sensors/rplidar.urdf.xacro" />
+  <xacro:include filename="$(find cuboid_description)/urdf/sensors/hc-sr04.urdf.xacro" />
+  <xacro:include filename="$(find cuboid_description)/urdf/sensors/gyro_imu.urdf.xacro" />
+  <!-- Bases -->
+  <xacro:include filename="$(find cuboid_description)/urdf/sensors/wheel.urdf.xacro"/>
+  <xacro:include filename="$(find cuboid_description)/urdf/sensors/connecter.urdf.xacro" />
+  <xacro:include filename="$(find cuboid_description)/urdf/cuboid/cuboid_base.urdf.xacro"/>
+ 
+</robot>

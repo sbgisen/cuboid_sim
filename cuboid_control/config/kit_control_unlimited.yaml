@@ -1,0 +1,91 @@
+base:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50  
+
+  # Diff drive controller --------------------------------------
+  diff_drive_controller:
+    type        : diff_drive_controller/DiffDriveController
+    left_wheel  : wheel_left_joint
+    right_wheel : wheel_right_joint
+    publish_rate: 50.0               # default: 50
+    pose_covariance_diagonal : [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0]
+    twist_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0]
+
+    # Velocity and acceleration limits
+    linear:
+      x:
+        has_velocity_limits:     true
+        has_acceleration_limits: false
+        has_jerk_limits:         false
+        max_velocity:            10.05
+# 0.01 0.3# 0.2# 0.4
+        min_velocity:            -10.05
+#-0.01-0.3#-0.2#-0.4
+        max_acceleration:        0.08
+        min_acceleration:        -0.08
+        max_jerk:                1.0
+        min_jerk:                0.1
+    angular:
+      z:
+        has_velocity_limits:     true
+        has_acceleration_limits: false
+        has_jerk_limits:         false
+        max_velocity:            2.06
+# 0.05 # 0.07 # 0.07 0.05 0.3# 0.2# 0.1# 0.4
+        min_velocity:            -2.06
+# -0.05 # -0.07 #-0.07-0.05-0.3#-0.2#-0.1#-0.4
+        max_acceleration:        10.0
+# 0.05 # 0.02 0.06# 0.1# 0.04
+        min_acceleration:        -10.0
+# -0.05 #-0.02-0.06#-0.1#-0.04
+        max_jerk:                1.0
+        min_jerk:                0.1
+
+    # Wheel separation and diameter. These are both optional.
+    # diff_drive_controller will attempt to read either one or both from the
+    # URDF if not specified as a parameter
+    wheel_separation : 0.23  #0.3066
+    #0.256 0.22
+    wheel_radius : 0.05
+
+    # Wheel separation and radius multipliers
+    wheel_separation_multiplier: 1.10693 # 1.186 #1.225 #1.635 # default: 1.0
+    wheel_radius_multiplier    : 1.0 #0.905 # default: 1.0
+
+    # Velocity commands timeout [s], default 0.5
+    cmd_vel_timeout: 0.25
+
+    # Base frame_id
+    base_frame_id: base_footprint
+
+    enable_odom_tf: true
+
+  # Velocity Controllers (obsolete) ----------------------------
+  wheel_left:
+    velocity_controller:
+      type: velocity_controllers/JointVelocityController
+      joint: wheel_left_joint
+      pid: {p: 10.0, i: 0.01, d: 0.0}
+  wheel_right:
+    velocity_controller:
+      type: velocity_controllers/JointVelocityController
+      joint: wheel_right_joint
+      pid: {p: 10.0, i: 0.01, d: 0.0}
+
+
+  laser_safety_filter:
+    safety_dist : 1.0
+    robot_width : 0.37
+    max_posi_lin_acc : 0.2
+/gazebo_ros_control:
+    pid_gains:
+        wheel_left_joint:
+            p: 10.0
+            i: 0.0
+            d: 0.1
+        wheel_right_joint:
+            p: 10.0
+            i: 0.0
+            d: 0.1

@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<!-- -*- mode: XML -*- -->
+<launch>
+
+	<!-- Load joint controller configurations from YAML file to parameter server -->
+	<rosparam file="$(find cuboid_control)/config/kit_control_unlimited.yaml" command="load"/>
+	<node name="imu_ralay" pkg="topic_tools" type="relay" args="/gyro/imu /base/diff_drive_controller/imu" />
+
+	<!-- load the controllers -->
+	<node name="laser_safety_filter" pkg="cuboid_control" type="laser_safety_filter" ns="base" output="screen">
+		<remap from="/cmd_vel_raw" to="/base/diff_drive_controller/cmd_vel_raw" />
+		<remap from="/cmd_vel" to="/base/diff_drive_controller/cmd_vel" />
+		<remap from="/scan" to="/scan1" />
+	</node>
+
+	<node name="base_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+		output="screen" ns="base" args="diff_drive_controller joint_state_controller"/>
+
+</launch>

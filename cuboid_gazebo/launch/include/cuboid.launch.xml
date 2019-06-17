@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- urdf xml robot description loaded on the Parameter Server, converting the xacro into a proper urdf file"/-->
+	<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find cuboid_description)/robots/cuboid_robot.urdf.xacro'"/>
+
+	<!-- push robot_description to factory and spawn robot in gazebo -->
+	<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model base -x -2.5 -y 0.33 -z 0.06" />
+
+	<!-- joint_state_publisher reads the robot_description parameter, finds all of the non-fixed joints and publishes a JointState message with all those joints defined. -->
+	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+
+	<!-- robot_state_publisher uses the URDF specified by the parameter robot_description and the joint positions from the topic joint_states to calculate the forward kinematics of the robot and publish the results via tf. -->
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+		respawn="false" required ="true" output="screen" />
+
+  <!-- Fake laser -->
+  <node pkg="nodelet" type="nodelet" name="laserscan_nodelet_manager" args="manager"/>
+  <node pkg="nodelet" type="nodelet" name="depthimage_to_laserscan"
+        args="load depthimage_to_laserscan/DepthImageToLaserScanNodelet laserscan_nodelet_manager">
+    <param name="scan_height" value="10"/>
+    <param name="output_frame_id" value="/camera_depth_frame"/>
+    <param name="range_min" value="0.45"/>
+    <remap from="image" to="/camera/depth/image_raw"/>
+	<remap from="scan" to="/camera/scan"/>
+  </node>
+	<!-- ros_control mybot launch file -->
+	<!--include file="$(find cuboid_control)/launch/cuboid_control.launch" /-->
+    <!-- scan filter -->
+	<node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter">
+		<remap from="scan" to="scan_raw" />
+		<remap from="scan_filtered" to="scan" />
+		<rosparam command="load" file="$(find cuboid_gazebo)/config/laser_filter-160.yaml" />
+	</node>
+    <!-- scan_foot filter -->
+	<node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter_foot">
+		<remap from="scan" to="scan_raw_foot" />
+		<remap from="scan_filtered" to="scan_foot" />
+		<rosparam command="load" file="$(find cuboid_gazebo)/config/laser_filter-90.yaml" />
+	</node>
+	<include file="$(find cuboid_gazebo)/launch/include/kinect2_with_pcl.launch"/>
+	<include file="$(find cuboid_gazebo)/launch/include/picoflexx_with_pcl.launch"/>
+    <include file="$(find cuboid_teleop)/launch/teleop.launch" />
+	<include file="$(find cuboid_control)/launch/kit_control_gazebo.launch" />
+	<!-- Server launch -->
+ 	<!-- <include file="$(find cuboid_server)/launch/server.launch" /> -->
+</launch>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- 
+    These properties must be observed by any machine
+    that wants to be defined as a turtlebot. Refer
+    to the REP for more details.
+    
+    http://www.ros.org/reps/rep-0119.html
+   -->
+   
+  <!--
+   ======================================================================
+   - REP 119 : Rgb camera link relative to the Base link 
+   ====================================================================== 
+     Base link is currently defined as the rotational centre on the bottom
+     of the base mould. For both create and kobuki this is actually exactly
+     the same 3d world point. 
+     
+     This may cause an issue with a base with much different floor clearance.
+     Should we be using base_footprint for this specification instead?
+ 
+     Note: REP needs to be updated with the information below 
+     (currently in development and awaiting feedback)
+   -->
+<xacro:property name="cam_px" value="0.180" />
+<!--	<xacro:property name="cam_py" value="-0.0125" /> Y varies for different configurations. get sets in sensors_urdf -->
+<xacro:property name="cam_pz" value="0.325" />
+<xacro:property name="cam_or" value="0" />
+<xacro:property name="cam_op" value="0" />
+<xacro:property name="cam_oy" value="0" />
+<xacro:property name="pmd_px" value="0.180" />
+<xacro:property name="pmd_py" value="0" /> 
+<xacro:property name="pmd_pz" value="0.553" />
+<xacro:property name="pmd_or" value="0" />
+<xacro:property name="pmd_op" value="1.047" />
+<xacro:property name="pmd_oy" value="0" />
+<xacro:property name="pi" value="3.1415926535897931" />
+<xacro:property name="body_height" value="0.000" />
+<xacro:property name="wheel_x_dist" value="0.00" />
+<xacro:property name="wheel_y_dist" value="0.115" />
+<xacro:property name="wheel_height" value="0.101" />
+  <!-- simplified box collision geometry for AkuLidar laser -->
+  <xacro:property name="base_laser_x" value="0.120" />
+  <xacro:property name="base_laser_y" value="-0.120" />
+  <xacro:property name="base_laser_z" value="0.605" />
+  <!-- simplified box collision geometry for rplidar laser -->
+  <xacro:property name="base_laser_size_x" value="0.06" />
+  <xacro:property name="base_laser_size_y" value="0.06" />
+  <xacro:property name="base_laser_size_z" value="0.03" />
+  <xacro:property name="base_laser_collision_offset_z" value="0.023" />
+  <!-- simplified box collision geometry for rplidar laser -->
+  <xacro:property name="rp_laser_x" value="0.150" />
+  <xacro:property name="rp_laser_y" value="0.0" />
+  <xacro:property name="rp_laser_z" value="0.640" />
+  <xacro:property name="foot_rp_laser_x" value="0.135" />
+  <xacro:property name="foot_rp_laser_y" value="0.0" />
+  <xacro:property name="foot_rp_laser_z" value="0.065" />
+
+  <xacro:property name="front_sonar_x" value="0.180" />
+  <xacro:property name="front_sonar_y" value="0.070" />
+  <xacro:property name="front_sonar_z" value="0.140" />
+
+  <xacro:property name="oblique_sonar_x" value="0.180" />
+  <xacro:property name="oblique_sonar_y" value="0.110" />
+  <xacro:property name="oblique_sonar_z" value="0.140" />
+
+  <xacro:property name="side_sonar_x" value="0.110" />
+  <xacro:property name="side_sonar_y" value="0.180" />
+  <xacro:property name="side_sonar_z" value="0.140" />
+
+  <xacro:property name="connector_x" value="0.170" />
+  <xacro:property name="connector_z" value="0.140" />
+</robot>

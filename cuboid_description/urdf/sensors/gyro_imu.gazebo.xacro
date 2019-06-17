@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="gyro_imu_gazebo" params="name update_rate">
+  <!-- xacro:macro name="gyro" params="name update_rate"-->
+	<gazebo>
+		<plugin filename="libhector_gazebo_ros_imu.so" name="imu_plugin_ros">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>${update_rate}</updateRate>
+        <bodyName>${name}_link</bodyName>
+        <topicName>${name}/imu</topicName>
+		<serviceName>${name}/imu_service</serviceName>
+        <gaussianNoise>0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset> 
+        <rpyOffset>0 -180.0 0</rpyOffset>
+        <serviceName>/default_imu</serviceName>
+		</plugin>
+	</gazebo>
+    <gazebo reference="${name}_link">
+	   <sensor type="imu" name="imu">
+        <always_on>true</always_on>
+		<update_rate>${update_rate}</update_rate>
+        <visualize>false</visualize>
+        <imu>
+          <noise>
+            <type>gaussian</type>
+	          <rate>
+	            <mean>0.0</mean>
+	            <stddev>0</stddev> <!-- 0.25 x 0.25 (deg/s) -->
+	            <bias_mean>0.0</bias_mean>
+	            <bias_stddev>0.0</bias_stddev>
+	          </rate>
+		        <accel> <!-- not used in the plugin and real robot, hence using tutorial values -->
+			        <mean>0.0</mean>
+			        <stddev>1.7e-2</stddev>
+			        <bias_mean>0.1</bias_mean>
+			        <bias_stddev>0.001</bias_stddev>
+		        </accel>
+          </noise>
+	      </imu>
+      </sensor>
+	</gazebo>
+  </xacro:macro>
+
+</robot>

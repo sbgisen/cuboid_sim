@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<launch>
+    <arg name="base_name"         default="camera"/>
+    <arg name="nodelet_manager"   default="kinect2_manager"/>
+    <arg name="fps_limit"         default="2.0"/>
+
+
+	<node pkg="nodelet" type="nodelet" name="$(arg nodelet_manager)" args="manager" output="screen" />
+	<node pkg="nodelet" type="nodelet" name="voxelgrid" args="load pcl/VoxelGrid $(arg nodelet_manager)" >
+			<remap from="~input" to="/$(arg base_name)/qhd/points" />
+		<remap from="~output" to="$(arg base_name)/points_voxelgrid" />
+  <rosparam>
+  leaf_size: 0.05
+  filter_field_name: z
+  filter_limit_min: 0.04
+  filter_limit_max: 4
+  filter_limit_negative: False
+  </rosparam>
+	</node>
+
+	<node pkg="nodelet" type="nodelet" name="statisticaloutlierremoval" args="load pcl/StatisticalOutlierRemoval $(arg nodelet_manager)" >
+		<remap from="~input" to="$(arg base_name)/points_voxelgrid" />
+		<remap from="~output" to="$(arg base_name)/points_filtered" />
+  <rosparam>
+  mean_k: 20
+  stddev: 1.05
+  negative: False
+  </rosparam>
+	</node>
+
+</launch>

@@ -1,0 +1,75 @@
+# for cuboid
+robot_base_frame: base_link
+
+transform_tolerance: 0.5
+
+robot_radius: 0.26
+inflater:
+  footprint: [[-0.18, 0.18], [0.18, 0.18], [0.18, -0.18], [-0.18, -0.18]] # for CUBE
+  robot_radius: 0.26
+  #cost_scaling_factor: 7.0
+  inflation_radius: 0.60 #0.6
+
+obstacles:
+  observation_sources: scan kinect scan_foot scan_urg picoflexx
+  scan:
+    data_type: LaserScan
+    topic: scan
+    marking: true
+    clearing: true
+    obstacle_range: 6.0
+    raytrace_range: 6.0
+    min_obstacle_height: 0.05
+    max_obstacle_height: 0.7
+  scan_urg:
+    data_type: LaserScan
+    topic: urg_scan
+    #topic: scan_shadow
+    marking: true
+    clearing: true
+    obstacle_range: 3.0
+    raytrace_range: 3.0
+    min_obstacle_height: 0.4
+    max_obstacle_height: 0.9
+  scan_foot:
+    data_type: LaserScan
+    topic: scan_foot
+    marking: true
+    clearing: true
+    obstacle_range: 3.0
+    raytrace_range: 3.0
+    min_obstacle_height: 0.05
+    max_obstacle_height: 0.7
+  kinect:
+    data_type: PointCloud2
+    topic: camera/sd/points_edge  #camera/points_filtered
+    marking: true
+    clearing: true
+    obstacle_range: 4.0
+    raytrace_range: 4.0
+    min_obstacle_height: 0.05
+    max_obstacle_height: 0.9
+  picoflexx:
+    data_type: PointCloud2
+    topic: pico_flexx/points_filtered
+    marking: true
+    clearing: true
+    obstacle_range: 2.0
+    raytrace_range: 2.0
+    min_obstacle_height: 0.05
+    max_obstacle_height: 0.7
+range_sensor_layer:
+    clear_threshold:    0.46
+    mark_threshold:     0.98
+    no_readings_timeout: 2.0
+    clear_on_max_reading: true
+    #ns:     /sonars
+    topics: ["/sonar/left_side", "/sonar/left_oblique", "/sonar/left_front", "/sonar/right_side", "/sonar/right_oblique", "/sonar/right_front"]
+#social_navigation_layer:
+#   enabled: true
+#   cutoff: 10.0
+#   amplitude: 127.0
+#   covariance: 0.55
+#   factor: 5.0
+#   keep_time: 0.75
+

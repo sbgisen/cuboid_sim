@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- RPLidar LIDAR for simulation -->  
+  <xacro:macro name="rplidar_laser_gazebo" params="name ros_topic update_rate min_angle max_angle">
+    <gazebo reference="${name}_link">
+      <sensor type="ray" name="${name}">
+       <pose>0 0 0 0 0 0</pose>  
+       <visualize>false</visualize>  
+       <update_rate>${update_rate}</update_rate>
+       <ray>  
+            <scan>  
+      <horizontal>  
+         <samples>360</samples>  
+         <resolution>1</resolution>  
+              <min_angle>${min_angle}</min_angle>
+              <max_angle>${max_angle}</max_angle>
+      </horizontal>  
+         </scan>  
+      <range>  
+           <min>0.10</min>  
+           <max>6.0</max>  
+           <resolution>0.01</resolution>  
+      </range>  
+          </ray>  
+				<plugin name="gazebo_rplidar_controller" filename="libgazebo_ros_laser.so">  
+          <gaussianNoise>0.005</gaussianNoise>
+          <alwaysOn>true</alwaysOn>
+          <updateRate>${update_rate}</updateRate>
+          <topicName>${ros_topic}</topicName>
+          <frameName>${name}_link</frameName>
+          <hokuyoMinIntensity>101</hokuyoMinIntensity>
+				</plugin>  
+		</sensor>  
+		</gazebo>  
+		</xacro:macro> 
+</robot>
