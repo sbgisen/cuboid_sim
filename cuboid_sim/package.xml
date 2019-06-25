@@ -54,16 +54,19 @@
   <build_depend>cuboid_gazebo</build_depend>
   <build_depend>cuboid_teleop</build_depend>
   <build_depend>cuboid_navigation</build_depend>
+  <build_depend>rviz</build_depend>
   <build_export_depend>cuboid_control</build_export_depend>
   <build_export_depend>cuboid_description</build_export_depend>
   <build_export_depend>cuboid_gazebo</build_export_depend>
   <build_export_depend>cuboid_teleop</build_export_depend>
   <build_export_depend>cuboid_navigation</build_export_depend>
+  <build_export_depend>rviz</build_export_depend>
   <exec_depend>cuboid_control</exec_depend>
   <exec_depend>cuboid_description</exec_depend>
   <exec_depend>cuboid_gazebo</exec_depend>
   <exec_depend>cuboid_teleop</exec_depend>
   <exec_depend>cuboid_navigation</exec_depend>
+  <exec_depend>rviz</exec_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

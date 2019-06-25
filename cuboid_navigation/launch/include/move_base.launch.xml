@@ -27,14 +27,6 @@
     <remap from="map" to="$(arg map_topic)" />
   </node>
 
-  <!-- costmap convert to image node -->
-  <group if="$(arg costmap_image)">
-  <param name="costmap_image/full/compressed/format" value="png" />
-  <node name="costmap_to_image" pkg="hector_compressed_map_transport" type="costmap_to_image_node" output="screen">
-		<remap from="pose" to="robot_pose" />
-  </node>
-  </group>
-
 <node if="$(arg rotate)" name="rotate_in_place" pkg="cuboid_navigation" type="rotate_in_place_vel.py" respawn="false" output="screen">
 </node>
 </launch>
