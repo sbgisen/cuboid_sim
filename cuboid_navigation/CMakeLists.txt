@@ -102,7 +102,7 @@ catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES cuboid_navigation
 #  CATKIN_DEPENDS other_catkin_pkg
-#  DEPENDS tf roscpp rospy navigation gmapping spatio_temporal_voxel_grid hector_compressed_map_transport
+#  DEPENDS tf roscpp rospy navigation gmapping spatio_temporal_voxel_grid 
 )
 
 ###########
@@ -114,7 +114,7 @@ catkin_package(
 include_directories(
 # include
 # ${catkin_INCLUDE_DIRS}
-# TODO: Check names of system library include directories (tf, roscpp, rospy, navigation, gmapping, spatio_temporal_voxel_grid, hector_compressed_map_transport)
+# TODO: Check names of system library include directories (tf, roscpp, rospy, navigation, gmapping, spatio_temporal_voxel_grid, )
 )
 
 ## Declare a C++ library
@@ -151,7 +151,6 @@ include_directories(
 #   ${navigation_LIBRARIES}
 #   ${gmapping_LIBRARIES}
 #   ${spatio_temporal_voxel_grid_LIBRARIES}
-#   ${hector_compressed_map_transport_LIBRARIES}
 # )
 
 #############

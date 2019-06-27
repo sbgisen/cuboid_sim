@@ -49,22 +49,19 @@
   <!-- Use doc_depend for packages you need only for building documentation: -->
   <!--   <doc_depend>doxygen</doc_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>gmapping</build_depend>
-  <build_depend>hector_compressed_map_transport</build_depend>
+  <build_depend>slam_gmapping</build_depend>
   <build_depend>navigation</build_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>rospy</build_depend>
   <build_depend>spatio_temporal_voxel_layer</build_depend>
   <build_depend>tf</build_depend>
-  <build_export_depend>gmapping</build_export_depend>
-  <build_export_depend>hector_compressed_map_transport</build_export_depend>
+  <build_export_depend>slam_gmapping</build_export_depend>
   <build_export_depend>navigation</build_export_depend>
   <build_export_depend>roscpp</build_export_depend>
   <build_export_depend>rospy</build_export_depend>
   <build_export_depend>spatio_temporal_voxel_layer</build_export_depend>
   <build_export_depend>tf</build_export_depend>
   <exec_depend>gmapping</exec_depend>
-  <exec_depend>hector_compressed_map_transport</exec_depend>
   <exec_depend>navigation</exec_depend>
   <exec_depend>roscpp</exec_depend>
   <exec_depend>rospy</exec_depend>
