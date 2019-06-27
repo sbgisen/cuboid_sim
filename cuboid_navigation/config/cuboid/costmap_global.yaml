@@ -4,5 +4,6 @@ resolution: 0.1
 
 plugins:
  - {name: static_map, type: "costmap_2d::StaticLayer"}
- - {name: obstacles,  type: "costmap_2d::VoxelLayer"}
+ - {name: laser_obstacles,  type: "costmap_2d::ObstacleLayer"}
+ - {name: rgbd_obstacles, type: "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer"}
  - {name: inflater,   type: "costmap_2d::InflationLayer"}

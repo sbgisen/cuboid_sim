@@ -16,7 +16,7 @@ from nav_msgs.msg import Path
 from math import atan2, cos, sin
 
 
-class globalPathSubscriber(object):
+class GlobalPathSubscriber(object):
     """
     global path subscriber
     global pathの/map座標系における向きの算出および
@@ -26,7 +26,7 @@ class globalPathSubscriber(object):
     def __init__(self):
         self.exist_path_dir = False
         self.progress_dir_rad = None
-        self.robot_pose_sub = robotPoseSubscriber()
+        self.robot_pose_sub = RobotPoseSubscriber()
         rospy.Subscriber("/move_base/NavfnROS/plan", Path,
                          self._global_path_cb, queue_size=2)
         rospy.loginfo('Init global path subscriber')
@@ -63,7 +63,7 @@ class globalPathSubscriber(object):
         return sin_theta
 
 
-class robotPoseSubscriber(object):
+class RobotPoseSubscriber(object):
     """
     /map上の向き[rad]の取得
     """
@@ -86,10 +86,13 @@ class robotPoseSubscriber(object):
 
     @property  # Read only
     def robot_dir_rad(self):
-        return self.robot_orientation_rad
+        if self.robot_orientation_rad is None:
+            rospy.logerr("[rotate_in_place] is shutdown because /robot_pose topic is not subscribed.")
+        else:
+            return self.robot_orientation_rad
 
 
-class rotate_in_place(object):
+class RotateInPlace(object):
     '''
     現在の向きとGlobal pathの向きを比較してその場旋回するクラス
     publish:round_vel(twist)
@@ -100,7 +103,7 @@ class rotate_in_place(object):
         self._init_pub_sub()
 
     def _init_pub_sub(self):
-        self.global_path_sub = globalPathSubscriber()
+        self.global_path_sub = GlobalPathSubscriber()
         self.local_cost_sub = localCostmapSubscriber()
         self.mv_result_sub = moveBaseResultSubscriber()
         self.mv_feedback_sub = moveBaseFeedbackSubscriber()
@@ -143,7 +146,7 @@ class rotate_in_place(object):
         safety_cost = rospy.get_param("~safety_cost", 75)
         rospy.logdebug('local costmap cost %d' % self.local_cost_sub.max_cost)
         if self.local_cost_sub.max_cost > safety_cost:
-            rospy.logerr("[rotate_in_place] can't rotate in place becase there is a potential collision. Cost: % d" % self.local_cost_sub.max_cost)
+            rospy.logerr("[rotate_in_place] can't rotate in place because there is a potential collision. Cost: % d" % self.local_cost_sub.max_cost)
             return True
         else:
             return False
@@ -197,7 +200,7 @@ class rotate_in_place(object):
 
 if __name__ == '__main__':
     rospy.init_node('rotate_in_place')
-    rotate = rotate_in_place()
+    rotate = RotateInPlace()
     while not rospy.is_shutdown():
         rotate.run()
     rospy.spin()

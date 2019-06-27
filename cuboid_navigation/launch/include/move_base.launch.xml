@@ -7,11 +7,10 @@
   <arg name="map_topic" default="map" />
   <arg name="cmd_vel_topic" default="nav_vel" />
   <arg name="odom_topic" default="odom" />
-	<arg name="rotate" default="true"/>
+  <arg name="rotate" default="false"/>
 
   <!-- launch costmap_to_image node -->
   <arg name="costmap_image" default="false" />
-
   <!-- planners, costmaps, etc -->
   <node pkg="move_base" type="move_base" name="move_base" respawn="true" output="screen">
     <rosparam file="$(find cuboid_navigation)/config/$(arg robot)/costmap_common.yaml" command="load" ns="global_costmap" />

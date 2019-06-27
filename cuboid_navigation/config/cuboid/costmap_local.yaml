@@ -6,16 +6,9 @@ update_frequency: 10
 
 
 plugins:
-# - {name: range_sensor_layer,   type: "range_sensor_layer::RangeSensorLayer"}
-# - {name: social,     type: "social_navigation_layers::ProxemicLayer"}
  - {name: obstacles,  type: "costmap_2d::VoxelLayer"}
+ - {name: laser_obstacles,  type: "costmap_2d::ObstacleLayer"}
+ - {name: rgbd_obstacles, type: "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer"}
  - {name: range_sensor_layer,   type: "range_sensor_layer::RangeSensorLayer"}
-# - {name: social_layer,  type: "social_navigation_layers::ProxemicLayer"}
  - {name: inflater,   type: "costmap_2d::InflationLayer"}
-# - {name: range_sensor_layer,   type: "range_sensor_layer::RangeSensorLayer"}
-
-        #social:
-        #amplitude: 254  # uniformly set 254 (forbidden region)
-        #covariance: 0.15  # radius
-        #use_gaussian: false  # if false, use uniform function
 

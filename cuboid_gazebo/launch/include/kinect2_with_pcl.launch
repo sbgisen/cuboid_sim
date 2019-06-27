@@ -8,7 +8,7 @@
 	<node pkg="nodelet" type="nodelet" name="$(arg nodelet_manager)" args="manager" output="screen" />
 	<node pkg="nodelet" type="nodelet" name="voxelgrid" args="load pcl/VoxelGrid $(arg nodelet_manager)" >
 			<remap from="~input" to="/$(arg base_name)/qhd/points" />
-		<remap from="~output" to="$(arg base_name)/points_voxelgrid" />
+            <remap from="~output" to="$(arg base_name)/sd/points_voxelgrid" />
   <rosparam>
   leaf_size: 0.05
   filter_field_name: z
@@ -19,8 +19,8 @@
 	</node>
 
 	<node pkg="nodelet" type="nodelet" name="statisticaloutlierremoval" args="load pcl/StatisticalOutlierRemoval $(arg nodelet_manager)" >
-		<remap from="~input" to="$(arg base_name)/points_voxelgrid" />
-		<remap from="~output" to="$(arg base_name)/points_filtered" />
+        <remap from="~input" to="$(arg base_name)/sd/points_voxelgrid" />
+        <remap from="~output" to="$(arg base_name)/sd/points_filtered" />
   <rosparam>
   mean_k: 20
   stddev: 1.05
