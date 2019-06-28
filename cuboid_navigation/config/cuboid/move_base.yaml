@@ -1,7 +1,7 @@
 controller_frequency: 10.0
 controller_patience: 0.2
 
-planner_frequency: 0.25
+planner_frequency: 0.0
 planner_patience: 15.0
 max_planning_retries: 5
 
@@ -53,9 +53,11 @@ recovery_behaviors:
   - name: "aggressive_reset"
     type: "clear_costmap_recovery/ClearCostmapRecovery"
 conservative_reset:
+  layer_names: ["rgbd_obstacles", "laser_obstacles", "obstacles"]
   reset_distance: 3.0
 rotate_recovery:
   frequency: 10.0
   sim_granularity: 0.02
 aggressive_reset: 
+  layer_names: ["rgbd_obstacles", "laser_obstacles", "obstacles"]
   reset_distance: 0.5

@@ -7,12 +7,17 @@
   <arg name="map_topic" default="map" />
   <arg name="cmd_vel_topic" default="nav_vel" />
   <arg name="odom_topic" default="odom" />
-  <arg name="rotate" default="false"/>
+  <arg name="rotate" default="true"/>
 
   <!-- launch costmap_to_image node -->
   <arg name="costmap_image" default="false" />
+ <node pkg="robot_pose_publisher" type="robot_pose_publisher" name="robot_pose_publisher">
+  <param name="is_stamped" value="true"/>
+ </node>
   <!-- planners, costmaps, etc -->
   <node pkg="move_base" type="move_base" name="move_base" respawn="true" output="screen">
+    <param name="footprint_padding" value="0.01" />
+    <param name="SBPLLatticePlanner/primitive_filename" value="$(find sbpl_lattice_planner)/matlab/mprim/pr2.mprim" />
     <rosparam file="$(find cuboid_navigation)/config/$(arg robot)/costmap_common.yaml" command="load" ns="global_costmap" />
 	<rosparam file="$(find cuboid_navigation)/config/$(arg robot)/costmap_common.yaml" command="load" ns="local_costmap" />
     <rosparam file="$(find cuboid_navigation)/config/costmap_local.yaml" command="load" ns="local_costmap" />

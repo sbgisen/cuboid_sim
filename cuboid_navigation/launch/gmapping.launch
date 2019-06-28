@@ -8,8 +8,8 @@
 		<!--param name="maxUrange" value="5.5"/>~
 		<param name="maxRange" value="5.5"/>~
 		<param name="minimumScore" value="50"/>~
-		<param name="temporalUpdate" value="5.0"/>~
-		<param name="delta" value="0.025"/-->~
+		<param name="temporalUpdate" value="5.0"/-->~
+		<param name="delta" value="0.025"/>~
   </node>
   <!--node pkg="rviz" type="rviz" name="rviz"/-->
 </launch>

@@ -13,7 +13,7 @@ inflater:
 
 laser_obstacles:
   enabled: true
-  observation_sources: scan_foot scan_head 
+  observation_sources: scan scan_foot scan_head 
   combination_method: 1
   scan_foot:
       sensor_frame: rplidar_laser_foot_link
@@ -39,6 +39,19 @@ laser_obstacles:
       clearing: true
       raytrace_range: 5.5
       obstacle_range: 5.0
+      min_obstacle_height: 0.05
+      max_obstacle_height: 1.0
+  scan:
+      sensor_frame: cuboid_laser_link
+      data_type: LaserScan
+      topic: urg_scan
+      expected_update_rate: 0.1
+      observation_persistence: 1.0
+      inf_is_valid: true
+      marking: true
+      clearing: true
+      raytrace_range: 10.0
+      obstacle_range: 10.0
       min_obstacle_height: 0.05
       max_obstacle_height: 1.0
 

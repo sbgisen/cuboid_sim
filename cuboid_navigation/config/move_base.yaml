@@ -1,5 +1,7 @@
 # Planner selection
-base_global_planner: "navfn/NavfnROS"
+# base_global_planner: "global_planner/GlobalPlanner"
+# base_global_planner: "navfn/NavfnROS"
+base_global_planner: "SBPLLatticePlanner"
 base_local_planner: "base_local_planner/TrajectoryPlannerROS"
 
 # Recovery behaviors are defined in robot folders
@@ -9,9 +11,18 @@ oscillation_timeout: 10.0
 oscillation_distance: 0.5
 
 # Global planner
-planner_frequency: 0.5 #0.1
+planner_frequency: 0.0 #0.1
 #shutdown_costmap: true
 planner_patience: 5.0
+GlobalPlanner:
+  allow_unknown: false # investigate this
+  visualize_potential: true
+  use_dijkstra: true
+  use_quadratic: true
+  use_gridpath: false
+  # do not restrict planner
+  # debug
+  
 NavfnROS:
   # allow_unknown: false  # investigate this
   allow_unknown: true  # investigate this
@@ -20,7 +31,14 @@ NavfnROS:
   planner_window_x: 0.0
   planner_window_y: 0.0
   # debug
-  visualize_potential: false
+  visualize_potential: true
+SBPLLatticePlanner:
+  environment_type: XYThetaLattice
+  planner_type: ARAPlanner
+  allocated_time: 2.0
+  initial_epsilon: 3.0
+  forward_search: true
+  force_scratch_limit: 2000
 
 # Local planner
 controller_frequency: 10.0
