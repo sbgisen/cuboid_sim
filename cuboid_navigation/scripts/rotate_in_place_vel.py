@@ -13,7 +13,7 @@ from util.movebase_sub import moveBaseResultSubscriber,\
     localCostmapSubscriber
 from geometry_msgs.msg import PoseStamped, Twist
 from nav_msgs.msg import Path
-from math import atan2, cos, sin
+from math import atan2, cos, sin, sqrt
 
 
 class GlobalPathSubscriber(object):
@@ -27,7 +27,9 @@ class GlobalPathSubscriber(object):
         self.exist_path_dir = False
         self.progress_dir_rad = None
         self.robot_pose_sub = RobotPoseSubscriber()
-        rospy.Subscriber("/move_base/NavfnROS/plan", Path,
+        # rospy.Subscriber("/move_base/NavfnROS/plan", Path,
+        # self._global_path_cb, queue_size=2)
+        rospy.Subscriber("/move_base/SBPLLatticePlanner/plan", Path,
                          self._global_path_cb, queue_size=2)
         rospy.loginfo('Init global path subscriber')
 
@@ -35,14 +37,20 @@ class GlobalPathSubscriber(object):
     def _global_path_cb(self, path):
         # TODO global pathのどの地点のベクトルを算出すればいいかの検討xy_tolelanceと同じくらいか
         if len(path.poses) > 10:  # 10はfootprintより小さい程度の距離として設定
-            first_pose = [path.poses[8].pose.position.x,
-                          path.poses[8].pose.position.y]
-            second_pose = [path.poses[9].pose.position.x,
-                           path.poses[9].pose.position.y]
-            self.progress_dir_rad = atan2(second_pose[1] - first_pose[1],
-                                          second_pose[0] - first_pose[0])
-            rospy.logdebug('goal update')
-            self.exist_path_dir = True
+            for i, pose in enumerate(path.poses):
+                path_pose_x = pose.pose.position.x - path.poses[0].pose.position.x
+                path_pose_y = pose.pose.position.y - path.poses[0].pose.position.y
+                path_pose_dist = sqrt(path_pose_x**2 + path_pose_y**2)
+                if path_pose_dist > 0.3:  # スタートからの距離が0.3m以上
+                    first_pose = [path.poses[i-1].pose.position.x,
+                                  path.poses[i-1].pose.position.y]
+                    second_pose = [pose.pose.position.x,
+                                   pose.pose.position.y]
+                    self.progress_dir_rad = atan2(second_pose[1] - first_pose[1],
+                                                  second_pose[0] - first_pose[0])
+                    rospy.logdebug('goal update')
+                    self.exist_path_dir = True
+                    break
         else:  # 近い距離の時はrotateしない
             self.exist_path_dir = False
 
@@ -146,7 +154,9 @@ class RotateInPlace(object):
         safety_cost = rospy.get_param("~safety_cost", 75)
         rospy.logdebug('local costmap cost %d' % self.local_cost_sub.max_cost)
         if self.local_cost_sub.max_cost > safety_cost:
-            rospy.logerr("[rotate_in_place] can't rotate in place because there is a potential collision. Cost: % d" % self.local_cost_sub.max_cost)
+            rospy.logerr(
+                "[rotate_in_place] can't rotate in place because there is a potential collision. Cost: % d" %
+                self.local_cost_sub.max_cost)
             return True
         else:
             return False
