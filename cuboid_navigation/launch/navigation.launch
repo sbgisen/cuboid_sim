@@ -42,6 +42,7 @@
 
     <arg name="costmap_image" value="$(arg costmap_image)" />
   </include>
-
+  <node name="rviz_nav" pkg="rviz" type="rviz" args="-d $(find cuboid_navigation)/config/navigation.rviz">
+  </node>
 
 </launch>

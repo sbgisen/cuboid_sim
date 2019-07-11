@@ -36,8 +36,12 @@
 
 ### Mapの作成
 - `$roslaunch cuboid_nav exploration_demo.launch`
-- -> 
+- -> rvizの`2D Nav Goal`を置くことでゴール地点を指定し、地図を作成する
+- `$ rosrun map_server map_saver -f __/path/to/map-file__`
+- -> __/path/to/map-file__ にMapファイルを保存する
 
 ### 自律移動
-- `$roslaunch cuboid_nav navigation.launch`
-- -> 
+- `$roslaunch cuboid_nav navigation.launch map_file:=__/path/to/map-file__` 
+- -> __/path/to/map-file__ を呼び出してその中で自律移動を行う
+- -> 初期位置がずれている場合は、rvizメニューの`2D Pose Estimate`で自己位置の位置合わせを行う
+- -> 自己位置がある程度合ったら、`2D Nav Goal` でゴール地点を指定し自律移動を行う

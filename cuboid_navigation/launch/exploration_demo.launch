@@ -49,4 +49,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 	<arg name="robot" value="$(arg robot)"/>
   </include>
 
+  <node name="rviz_nav" pkg="rviz" type="rviz" args="-d $(find cuboid_navigation)/config/navigation.rviz">
+  </node>
+
 </launch>
