@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <!-- Microsoft Kinect / ASUS Xtion PRO Live for simulation -->
+  <!-- picoflexx for simulation -->
   <xacro:macro name="cuboid_sim_pmd_sensor" params="name">
-  <gazebo reference="${name}_link">  
-    <material>Gazebo/FlatBlack</material>
+    <gazebo reference="${name}_link">
+      <material>Gazebo/FlatBlack</material>
       <sensor type="depth" name="camera">
         <always_on>true</always_on>
         <update_rate>5.0</update_rate>
