@@ -25,7 +25,6 @@
      - `$ sudo apt install git`
 
 ## How to use
-
 ### Gazeboの起動
 - (@terminal1)`$ roslaunch cuboid_gazebo robot_office.launch`
 - (@terminal2)`$ rosservice call /gazebo/unpause_physics`

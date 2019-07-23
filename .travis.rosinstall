@@ -1,0 +1,4 @@
+- git:
+    uri: https://github.com/mit-racecar/vesc.git
+    local-name: vesc
+    version: master

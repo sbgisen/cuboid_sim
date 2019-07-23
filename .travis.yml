@@ -1,0 +1,26 @@
+language: generic
+cache:
+  apt: true
+  pip: true
+  directories:
+  - $HOME/.ccache
+sudo: required
+dist: trusty
+group: edge
+services:
+- docker
+env:
+  global:
+  - ROS_PARALLEL_JOBS="-j4"
+  - CATKIN_PARALLEL_JOBS="-p4"
+  - ROS_PARALLEL_TEST_JOBS="-j4"
+  - CATKIN_PARALLEL_TEST_JOBS="-p1"
+  matrix:
+  - ROS_DISTRO=kinetic USE_DEB=false NOT_TEST_INSTALL=true
+  # - ROS_DISTRO=indigo USE_DEB=false BEFORE_SCRIPT='$CI_SOURCE_PATH/.travis_before_script_quanergy.bash;$CI_SOURCE_PATH/.travis_before_script_libfreenect2.bash' NOT_TEST_INSTALL=true
+  #- ROS_DISTRO=jade USE_DEB=false BEFORE_SCRIPT='$CI_SOURCE_PATH/.travis_before_script_quanergy.bash' NOT_TEST_INSTALL=true
+# matrix:
+  # fast_finish: true
+  # allow_failures:
+  # - env: ROS_DISTRO=kinetic USE_DEB=false NOT_TEST_INSTALL=true
+script: source .travis/travis.sh
