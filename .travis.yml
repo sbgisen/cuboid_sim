@@ -23,4 +23,10 @@ env:
   # fast_finish: true
   # allow_failures:
   # - env: ROS_DISTRO=kinetic USE_DEB=false NOT_TEST_INSTALL=true
+git:
+    submodules: false
+before_install:
+  - sed -i -e "s/git@github.com:/https:\/\/$CI_USER_TOKEN@github.com\//" ./.gitmodules
+  - echo -e "machine github.com\n  login $CI_USER_TOKEN" >> ~/.netrc
+  - git submodule update --init --recursive
 script: source .travis/travis.sh
