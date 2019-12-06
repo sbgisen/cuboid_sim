@@ -13,7 +13,7 @@
   - `$ git clone git@github.com:sbgisen/cuboid_sim.git`
   - `$ cd ~/ros/`
   - `$ wstool init src`
-  - `$ wstool merge cuboid_sim/.travis.rosinstall -t src`
+  - `$ wstool merge src/cuboid_sim/.travis.rosinstall -t src`
   - `$ cd src`
   - `$ wstool update`
   - `$ cd ~/ros/`
