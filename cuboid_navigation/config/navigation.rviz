@@ -447,8 +447,6 @@ Visualization Manager:
     - Class: rviz/PublishPoint
       Single click: true
       Topic: /clicked_point
-    - Class: jsk_rviz_plugin/OpenAll
-    - Class: jsk_rviz_plugin/CloseAll
   Value: true
   Views:
     Current:
