@@ -39,7 +39,7 @@
 - ->terminalに表示されるように'i','j','l',','などで前後、旋回の操作可能
 
 ### Mapの作成
-- `$roslaunch cuboid_nav exploration_demo.launch`
+- `$roslaunch cuboid_navigation exploration_demo.launch`
 - -> rvizの`2D Nav Goal`を置くことでゴール地点を指定し、地図を作成する
 - `$ rosrun map_server map_saver -f __/path/to/map-file__`
 - -> __/path/to/map-file__ にMapファイルを保存する
