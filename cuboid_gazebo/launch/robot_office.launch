@@ -1,5 +1,6 @@
 <!-- -*- mode: XML -*- -->
 <launch>
+  <env name="GAZEBO_MODEL_PATH" value="$(find cuboid_gazebo)/models:$(optenv GAZEBO_MODEL_PATH)"/>
   <param name="/use_sim_time" value="true"/>
   <arg name="robot" default="cuboid"/>
   <arg name="gui" default="true"/>
