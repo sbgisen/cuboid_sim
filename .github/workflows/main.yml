@@ -22,8 +22,8 @@ jobs:
       run: |
         export CI_SOURCE_PATH=$(pwd)
         echo "$CI_SOURCE_PATH"
-        mkdir -p ~/ros/src
-        ln -s  ~/ros/src/ ../
+        mkdir -p ~/ros/src && cd ~/ros/src
+        ln -s  $CI_SOURCE_PATH
         ls ~/ros/src/
         sudo sh -c "echo \"deb http://packages.ros.org/ros/ubuntu $ROS_CI_DESKTOP main\" > /etc/apt/sources.list.d/ros-latest.list"
         sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
